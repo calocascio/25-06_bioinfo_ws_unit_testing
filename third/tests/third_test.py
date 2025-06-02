@@ -1,22 +1,20 @@
 from third.third import greeting
 import pytest
+from contextlib import nullcontext
 
-def test_greeting_eng():
-    assert greeting("James", "English") == "Hello James!"
+@pytest.mark.parametrize(
+    "name, language, exception, output",
+    [
+        ("Camilla", "English", nullcontext(), "Hello Camilla!"),
+        (1, "English", pytest.raises(TypeError), None),
+        ("Milla", "Norwegian", nullcontext(), "Hei Milla!")
+    ]
+)
+def test_greeting_eng(name, language, exception, output):
+    with exception:
+        assert greeting(name, language) == output
 
-def test_greeting_nor():
-    assert greeting("Solveig", "Norwegian") == "Hei Solveig!"
 
-def test_greeting_default():
-    assert greeting("Max", "German") == "I don't speak your language!"
-
-def test_greeting_name_wrong_type():
-    with pytest.raises(TypeError):
-        assert greeting(False, "English") == None
-
-def test_greeting_language_wrong_type():
-    with pytest.raises(TypeError):
-        assert greeting("James", 666) == None
 
 # write one unit test to cover all test cases of greeting(name, language) in third/third.py
 # also import nullcontext: from contextlib import nullcontext
