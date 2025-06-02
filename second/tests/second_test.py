@@ -1,4 +1,5 @@
 from second.second import greeting
+import pytest
 
 def test_greeting_eng():
     assert greeting("James", "English") == "Hello James!"
@@ -8,6 +9,11 @@ def test_greeting_nor():
 
 def test_greeting_default():
     assert greeting("Max", "German") == "I don't speak your language!"
+
+def test_add_exception():
+    with pytest.raises(TypeError):
+        assert greeting(1, "Italian") == "Ciao Camilla!"
+
 
 # add unit tests to cover exceptions in greeting(name, language) in second/second.py
 # start by importing pytest: import pytest
